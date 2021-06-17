@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  salesms:
+    depends_on:
+      - "rabbitmq"
+    ports:
+      - "8081:8080"
+    build: ./SalesMS
+    image: "salesms:latest"
+  stockms:
+    depends_on:
+      - "rabbitmq"
+    ports:
+      - "8082:8080"
+    build: ./StockMS
+    image: "stockms:latest"
+  gateway:
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "salesms"
+      - "stockms"
+    build: ./Gateway
+    image: "gateway:latest"
