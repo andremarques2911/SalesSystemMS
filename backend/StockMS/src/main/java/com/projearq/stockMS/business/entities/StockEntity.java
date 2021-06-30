@@ -1,4 +1,4 @@
-package com.projearq.sistemavendas.negocio.entidades;
+package com.projearq.stockMS.business.entities;
 
 import javax.persistence.*;
 
@@ -12,50 +12,10 @@ public class StockEntity {
 	@Column(name = "stock_id")
 	private Long id;
 
-	private int availableQuantity;
+	private int availableAmmount;
 
     @OneToOne
 	@JoinColumn(name = "product_id", nullable = false)
 	private ProductEntity product;
 
-    public Stock() {}
-
-    public static class Builder {
-        private Long id = null;
-        private int availableQuantity = 0;
-        private ProductEntity product = null;
-
-        public Builder() {}
-		
-        public Builder availableQuantity(int availableQuantity) {this.availableQuantity = availableQuantity; return this;}
-
-        public Builder product(ProductEntity product) {this.product = product; return this;}
-
-        public Stock build() {return new Stock(this);}
-
-    }
-
-    private Stock(Builder builder) {
-        this.id = builder.id;
-        this.availableQuantity = builder.availableQuantity;
-        this.product = builder.product;
-    }
-
-    public Long getId() {return this.id;}
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getavailableQuantity() {return this.availableQuantity;}
-
-    public void setavailableQuantity(int availableQuantity) {
-        this.availableQuantity = availableQuantity;
-    }
-
-    public ProductEntity getproduct() {return this.product;}
-
-    public void setproduct(ProductEntity product) {
-        this.product = product;
-    }
 }

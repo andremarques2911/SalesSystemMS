@@ -1,12 +1,12 @@
-package com.projearq.sistemavendas.negocio.repositorios;
+package com.projearq.stockMS.business.repositories;
 
-import com.projearq.sistemavendas.negocio.entidades.Produto;
+import com.projearq.stockMS.business.entities.ProductEntity;
 
 import java.util.List;
 
 public interface IProductRepository {
 
-	List<ProductEntity> getProdutcs();
+	List<ProductEntity> findAllProducts();
 
 	ProductEntity searchProduct(Long code);
 

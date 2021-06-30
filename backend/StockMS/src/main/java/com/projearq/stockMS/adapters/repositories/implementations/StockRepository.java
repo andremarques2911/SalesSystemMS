@@ -1,15 +1,15 @@
-package com.projearq.sistemavendas.adaptadores.repositorios;
+package com.projearq.stockMS.adapters.repositories.implementations;
 
-import com.projearq.sistemavendas.adaptadores.repositorios.interfaces.IEstoqueRepositoryCustom;
-import com.projearq.sistemavendas.negocio.entidades.Estoque;
-import com.projearq.sistemavendas.negocio.repositorios.IEstoqueRepository;
+import com.projearq.stockMS.adapters.repositories.interfaces.IStockRepositoryCustom;
+import com.projearq.stockMS.business.entities.StockEntity;
+import com.projearq.stockMS.business.repositories.IStockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StockRepository implements IStockRepository {
 
-	private IStockRepositoryCustom stockRepositoryCustom;
+	private final IStockRepositoryCustom stockRepositoryCustom;
 
 	@Autowired
 	public StockRepository(IStockRepositoryCustom stockRepositoryCustom) {

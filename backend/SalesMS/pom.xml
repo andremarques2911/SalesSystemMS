@@ -67,7 +67,7 @@
 
     <properties>
         <java.version>15</java.version>
-        <start-class>com.projearq.stockMS.SalesMSApplication</start-class>
+        <start-class>com.projearq.salesMS.SalesMSApplication</start-class>
     </properties>
 
 </project>

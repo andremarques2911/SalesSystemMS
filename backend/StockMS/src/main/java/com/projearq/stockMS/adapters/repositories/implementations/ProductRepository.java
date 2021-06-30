@@ -1,8 +1,8 @@
-package com.projearq.sistemavendas.adaptadores.repositorios;
+package com.projearq.stockMS.adapters.repositories.implementations;
 
-import com.projearq.sistemavendas.adaptadores.repositorios.interfaces.IproductRepositoryCustom;
-import com.projearq.sistemavendas.negocio.entidades.Produto;
-import com.projearq.sistemavendas.negocio.repositorios.IProdutosRepository;
+import com.projearq.stockMS.adapters.repositories.interfaces.IProductRepositoryCustom;
+import com.projearq.stockMS.business.entities.ProductEntity;
+import com.projearq.stockMS.business.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class ProductRepository implements IProductRepository {
 
-	private IProductRepositoryCustom productRepositoryCustom;
+	private final IProductRepositoryCustom productRepositoryCustom;
 
 	@Autowired
 	public ProductRepository(IProductRepositoryCustom productRepositoryCustom) {
@@ -19,7 +19,7 @@ public class ProductRepository implements IProductRepository {
 	}
 
 	@Override
-	public List<ProductEntity> getProdutcs() {
+	public List<ProductEntity> findAllProducts() {
 		return this.productRepositoryCustom.findAll();
 	}
 
@@ -32,4 +32,5 @@ public class ProductRepository implements IProductRepository {
 	public ProductEntity addProduct(ProductEntity product) {
 		return this.productRepositoryCustom.save(product);
 	}
+
 }

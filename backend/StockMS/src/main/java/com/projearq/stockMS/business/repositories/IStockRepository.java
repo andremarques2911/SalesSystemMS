@@ -1,6 +1,6 @@
-package com.projearq.sistemavendas.negocio.repositorios;
+package com.projearq.stockMS.business.repositories;
 
-import com.projearq.sistemavendas.negocio.entidades.Estoque;
+import com.projearq.stockMS.business.entities.StockEntity;
 
 public interface IStockRepository {
 

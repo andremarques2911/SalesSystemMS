@@ -1,6 +1,6 @@
-package com.projearq.sistemavendas.adaptadores.repositorios.interfaces;
+package com.projearq.stockMS.adapters.repositories.interfaces;
 
-import com.projearq.sistemavendas.negocio.entidades.Estoque;
+import com.projearq.stockMS.business.entities.StockEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
