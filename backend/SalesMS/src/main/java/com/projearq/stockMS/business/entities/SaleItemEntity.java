@@ -21,17 +21,20 @@ public class SaleItemEntity {
     @Column(name = "id_sale_item")
     private Long id;
 
-    private double quantidade;
+    private double ammount;
 
-    private double precoUnitVenda;
+    private double unitPrice;
 
-    private double imposto;
+    private double tax;
 
-    @OneToOne
-    @JoinColumn(name = "id_product", nullable = false)
-    private ProductEntity product;
+    @Column(name = "id_product", nullable = false)
+    private Long productId;
 
-//    @JsonBackReference
+//    @OneToOne
+//    @JoinColumn(name = "id_product", nullable = false)
+//    private ProductEntity product;
+
+    //    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_sale", nullable = false)
     private SaleEntity sale;

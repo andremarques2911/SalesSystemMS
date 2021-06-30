@@ -23,9 +23,6 @@ public class SaleEntity {
     private Long id;
 
     @Column
-    private Long number;
-
-    @Column
     private Date date;
 
 }

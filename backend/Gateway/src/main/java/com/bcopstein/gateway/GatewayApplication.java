@@ -19,6 +19,7 @@ public class GatewayApplication {
 			 	.uri("http://stockms:8080"))
 			.build();
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayApplication.class, args);
 	}

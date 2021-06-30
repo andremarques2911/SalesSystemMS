@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ISaleRepository {
 
+    void save(SaleEntity sale);
+
     List<SaleEntity> findAll();
 
 }

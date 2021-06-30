@@ -11,16 +11,22 @@ import java.util.List;
 @Component
 public class SaleRepository implements ISaleRepository {
 
-    private final ISaleRepositoryCustom saleRepositoryCustom;
+    private ISaleRepositoryCustom repository;
 
     @Autowired
-    public SaleRepository(ISaleRepositoryCustom saleRepositoryCustom) {
-        this.saleRepositoryCustom = saleRepositoryCustom;
+    public SaleRepository(ISaleRepositoryCustom repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void save(SaleEntity sale) {
+        this.repository.save(sale);
     }
 
     @Override
     public List<SaleEntity> findAll() {
-        return this.saleRepositoryCustom.findAll();
+        return this.repository.findAll();
     }
+
 
 }
