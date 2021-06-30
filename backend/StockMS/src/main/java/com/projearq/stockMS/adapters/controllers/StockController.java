@@ -9,22 +9,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("stock")
+@RequestMapping("stocks")
 public class StockController {
 
-    private final ISaleRepository repository;
+    private final IStockRepository repository;
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public StockController(ISaleRepository repository, RabbitTemplate rabbitTemplate) {
+    public StockController(IStockRepository repository, RabbitTemplate rabbitTemplate) {
         this.repository = repository;
         this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping
     @CrossOrigin(origins = "*")
-    public List<SaleEntity> findAll() {
-        return repository.findAll();
+    public List<ProductEntity> getProdutcs() {
+        return repository.getProdutcs();
+    }
+
+    @GetMapping("/{code}")
+    @CrossOrigin(origins = "*")
+    public StockEntity searchStockItem(@PathVariable("code") code) {
+        return repository.searchStockItem(code);
     }
 
     @GetMapping("/teste")
@@ -34,5 +40,4 @@ public class StockController {
         System.out.println("Sending message: "+msg);
         rabbitTemplate.convertAndSend("sales-exchange", "sales.nova", msg);
     }
-
 }

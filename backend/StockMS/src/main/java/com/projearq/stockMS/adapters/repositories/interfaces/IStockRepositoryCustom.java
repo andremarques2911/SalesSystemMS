@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface IStockRepositoryCustom extends CrudRepository<StockEntity, Long> {
 
     StockEntity findByProduct_code(Long code);
-
+    
 }
