@@ -29,7 +29,7 @@ public class AddProductQueueConfiguration {
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("stock.addProduct#");
+        return BindingBuilder.bind(queue).to(exchange).with("stock.#");
     }
 
     @Bean
@@ -44,7 +44,7 @@ public class AddProductQueueConfiguration {
 
     @Bean
     MessageListenerAdapter listenerAdapter(AddProductReceiver addProductReceiver) {
-        return new MessageListenerAdapter(addProductReceiver, "addProduct");
+        return new MessageListenerAdapter(addProductReceiver, "receive");
     }
 
 }

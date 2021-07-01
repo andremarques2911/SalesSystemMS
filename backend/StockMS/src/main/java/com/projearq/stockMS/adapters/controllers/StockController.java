@@ -8,12 +8,14 @@ import com.projearq.stockMS.application.usecases.SearchStockProductUC;
 import com.projearq.stockMS.application.utils.JSONUtils;
 import com.projearq.stockMS.business.entities.ProductEntity;
 import com.projearq.stockMS.business.entities.StockEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("stock")
 public class StockController {
@@ -31,9 +33,9 @@ public class StockController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @GetMapping
+    @GetMapping("/products")
     @CrossOrigin(origins = "*")
-    public List<ProductEntity> getProdutcs() {
+    public List<ProductDTO> getProdutcs() {
         return this.findAllProductsUC.run();
     }
 
@@ -45,9 +47,11 @@ public class StockController {
 
     @PostMapping
     @CrossOrigin(origins = "*")
-    public void addProduct(ProductDTO productDTO) {
+    public void addProduct(@RequestBody ProductDTO productDTO) {
         try {
-            rabbitTemplate.convertAndSend("stock-exchange", "stock.add", JSONUtils.covertFromObjectToJson(productDTO));
+            String send = JSONUtils.covertFromObjectToJson(productDTO);
+            log.info("Sending message > " + send);
+            rabbitTemplate.convertAndSend("stock-exchange", "stock.add", send);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

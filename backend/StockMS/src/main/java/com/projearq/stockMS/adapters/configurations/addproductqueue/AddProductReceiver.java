@@ -19,12 +19,14 @@ public class AddProductReceiver {
         this.addProductUC = addProductUC;
     }
 
-    public void addProduct(String productSerialized) {
+    public void receive(String productSerialized) {
+        log.info("Received message > " + productSerialized);
         try {
             ProductDTO product = JSONUtils.covertFromJsonToObject(productSerialized, ProductDTO.class);
+            log.info("Parse complete > " + product);
             this.addProductUC.run(product);
         } catch (IOException ex) {
-
+            log.error(ex.getMessage());
         }
     }
 

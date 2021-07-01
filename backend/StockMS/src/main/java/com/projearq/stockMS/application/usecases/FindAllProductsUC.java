@@ -1,5 +1,6 @@
 package com.projearq.stockMS.application.usecases;
 
+import com.projearq.stockMS.application.dtos.ProductDTO;
 import com.projearq.stockMS.business.entities.ProductEntity;
 import com.projearq.stockMS.business.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class FindAllProductsUC {
         this.service = service;
     }
 
-    public List<ProductEntity> run() {
+    public List<ProductDTO> run() {
         return this.service.findAllProducts();
     }
 

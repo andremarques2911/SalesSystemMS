@@ -105,7 +105,7 @@ class ServicoDeVendas {
   }
 
   async getProdutos() {
-    const url = this.baseUrl + "/stock/";
+    const url = this.baseUrl + "/stock/products";
     const produtos = [];
 
     try {
@@ -116,10 +116,10 @@ class ServicoDeVendas {
         for (let i = 0; i < dados.length; i++) {
           produtos.push(
             new Produto(
-              dados[i].codigo,
-              dados[i].descricao,
-              dados[i].preco,
-              dados[i].quantidade
+              dados[i].code,
+              dados[i].description,
+              dados[i].price,
+              dados[i].ammount
             )
           );
         }
