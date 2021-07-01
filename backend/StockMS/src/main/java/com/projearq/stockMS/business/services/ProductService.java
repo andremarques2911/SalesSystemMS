@@ -21,4 +21,8 @@ public class ProductService {
         return this.repository.findAllProducts();
     }
 
+    public ProductEntity addProduct(ProductEntity product) {
+        return this.repository.addProduct(product);
+    }
+
 }

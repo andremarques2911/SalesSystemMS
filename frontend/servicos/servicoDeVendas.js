@@ -105,7 +105,7 @@ class ServicoDeVendas {
   }
 
   async getProdutos() {
-    const url = this.baseUrl + "/sales/";
+    const url = this.baseUrl + "/stock/";
     const produtos = [];
 
     try {

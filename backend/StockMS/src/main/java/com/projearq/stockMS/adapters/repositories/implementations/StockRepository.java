@@ -17,12 +17,18 @@ public class StockRepository implements IStockRepository {
 	}
 
 	@Override
-	public StockEntity searchStockItem(Long code) {
+	public StockEntity searchStockProduct(Long code) {
 		return this.stockRepositoryCustom.findByProduct_code(code);
+	}
+
+	@Override
+	public StockEntity save(StockEntity stock) {
+		return this.stockRepositoryCustom.save(stock);
 	}
 
 	@Override
 	public StockEntity storeProductStock(StockEntity stock) {
 		return this.stockRepositoryCustom.save(stock);
 	}
+
 }

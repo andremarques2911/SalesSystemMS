@@ -15,8 +15,12 @@ public class StockService {
         this.repository = repository;
     }
 
-    public StockEntity searchStockItem(Long code) {
-        return this.repository.searchStockItem(code);
+    public StockEntity searchStockProduct(Long code) {
+        return this.repository.searchStockProduct(code);
+    }
+
+    public StockEntity save(StockEntity stock) {
+        return this.repository.save(stock);
     }
 
 }

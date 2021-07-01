@@ -1,4 +1,8 @@
 spring:
+  profiles:
+    active: local
+---
+spring:
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     platform: h2
@@ -22,7 +26,7 @@ spring:
       path: /console
       settings:
         trace: false
-        web-allow-others: false
+        web-allow-others: true
   rabbitmq:
     host: rabbitmq
   config:
