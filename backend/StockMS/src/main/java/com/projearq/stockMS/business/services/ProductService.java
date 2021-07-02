@@ -40,4 +40,8 @@ public class ProductService {
         return this.repository.addProduct(product);
     }
 
+    public ProductEntity searchProduct(Long code) {
+        return this.repository.searchProduct(code);
+    }
+
 }

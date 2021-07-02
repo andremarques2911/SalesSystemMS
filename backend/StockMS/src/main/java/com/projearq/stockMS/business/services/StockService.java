@@ -23,4 +23,10 @@ public class StockService {
         return this.repository.save(stock);
     }
 
+    public void decreaseAmmountItemStock(Long code, int ammount) {
+        StockEntity stock = this.searchStockProduct(code);
+        stock.setAvailableAmmount(stock.getAvailableAmmount() - ammount);
+        this.save(stock);
+    }
+
 }

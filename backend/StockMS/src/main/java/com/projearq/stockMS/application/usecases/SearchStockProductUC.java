@@ -1,5 +1,6 @@
 package com.projearq.stockMS.application.usecases;
 
+import com.projearq.stockMS.application.dtos.StockDTO;
 import com.projearq.stockMS.business.entities.StockEntity;
 import com.projearq.stockMS.business.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ public class SearchStockProductUC {
         this.service = service;
     }
 
-    public StockEntity run(Long code) {
-        return this.service.searchStockProduct(code);
+    public StockDTO run(Long code) {
+        StockEntity stock = this.service.searchStockProduct(code);
+        return StockDTO.builder()
+                .codProd(code)
+                .availableAmmount(stock.getAvailableAmmount())
+                .build();
     }
 
 }

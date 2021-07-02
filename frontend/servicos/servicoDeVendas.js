@@ -1,6 +1,6 @@
 class ServicoDeVendas {
   async autoriza(codigo, quantidade) {
-    let url = this.baseUrl + "/vendas/autorizacao";
+    let url = this.baseUrl + "/sales/autorizacao";
     url += "?codProd=" + codigo + "&qtdade=" + quantidade;
 
     try {
@@ -29,11 +29,11 @@ class ServicoDeVendas {
   }
 
   async calculaSubtotal(itens) {
-    const url = this.baseUrl + "/vendas/subtotal";
+    const url = this.baseUrl + "/sales/subtotal";
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ codigo: item.produto.codigo, quantidade: item.qtdade });
+      param.push({ code: item.produto.codigo, ammount: item.qtdade });
     });
 
     const otherParam = {
@@ -67,11 +67,11 @@ class ServicoDeVendas {
   }
 
   async confirmaVenda(itens) {
-    const url = this.baseUrl + "/vendas/confirmacao";
+    const url = this.baseUrl + "/sales/confirmacao";
     const param = [];
 
     itens.forEach((item) => {
-      param.push({ codigo: item.produto.codigo, quantidade: item.qtdade });
+      param.push({ code: item.produto.codigo, ammount: item.qtdade });
     });
 
     const otherParam = {
@@ -112,7 +112,6 @@ class ServicoDeVendas {
       let resposta = await fetch(url);
       if (resposta.ok) {
         let dados = await resposta.json();
-        console.log(dados);
         for (let i = 0; i < dados.length; i++) {
           produtos.push(
             new Produto(

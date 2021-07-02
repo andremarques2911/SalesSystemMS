@@ -8,12 +8,14 @@ import com.projearq.salesMS.business.entities.SaleItemEntity;
 import com.projearq.salesMS.business.repositories.ISaleRepository;
 import com.projearq.salesMS.business.strategy.IRestrictionsStrategy;
 import com.projearq.salesMS.business.strategy.ITaxCalculationStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Component
 public class SaleService {
 
@@ -49,8 +51,8 @@ public class SaleService {
         for (ProductDTO item : items) {
 //            if (restrictions != null && restrictions.restrictsAmmountItem(item.getAmmount()))
 //                throw new ExcecaoDeNegocio("Restrição na quantidade para esse item!");
-//            Produto produto = this.servicoDeProduto.buscaProduto(item.getCodigo());
-//            subtotal += produto.getPrecoUnitario() * item.getQuantidade();
+            ProductDTO product = this.stockService.searchProduct(item.getCode());
+            subtotal += product.getPrice() * item.getAmmount();
         }
         return subtotal;
     }
@@ -65,7 +67,9 @@ public class SaleService {
     }
 
     public boolean checkAvailability(Long codProd, Integer ammount) {
+        log.info("Params [ " + codProd + " " + ammount  + " ]" );
         StockDTO stock = this.stockService.searchStockItem(codProd);
+        log.info("Stock => " + stock);
         return stock.getAvailableAmmount() >= ammount;
     }
 

@@ -31,13 +31,13 @@ public class ConfirmSaleUC {
         List<SaleItemEntity> saleItems = new ArrayList<>();
         Double[] subtotais = this.calculateBasicCostUC.run(items);
         for (ProductDTO item : items) {
-//            this.stockService.diminuiQuantidadeItemEstoque(item.getCodigo(), item.getQuantidade());
-//            ProductDTO product = this.productService.buscaProduto(item.getCode());
+            this.stockService.decreaseAmmountItemStock(item.getCode(), item.getAmmount());
+            ProductDTO product = this.stockService.searchProduct(item.getCode());
             SaleItemEntity saleItem = SaleItemEntity.builder()
                     .ammount(item.getAmmount())
                     .unitPrice(subtotais[0])
                     .tax(subtotais[1])
-//                    .produto(produto)
+                    .productId(product.getId())
                     .build();
             saleItems.add(saleItem);
         }

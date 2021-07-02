@@ -28,17 +28,16 @@ public class StockRollbackQueueConfiguration {
     }
 
     @Bean
-    Binding stockRollbackBinding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("stockRollback.#");
+    Binding stockRollbackBinding() {
+        return BindingBuilder.bind(this.stockRollbackQueue()).to(this.stockRollbackExchange()).with("stockRollback.#");
     }
 
     @Bean
-    SimpleMessageListenerContainer stockRollbackContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
+    SimpleMessageListenerContainer stockRollbackContainer(ConnectionFactory connectionFactory, RollbackStockReceiver rollbackStockReceiver) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(queueNameRollback);
-        container.setMessageListener(listenerAdapter);
+        container.setMessageListener(this.stockRollbackListenerAdapter(rollbackStockReceiver));
         return container;
     }
 

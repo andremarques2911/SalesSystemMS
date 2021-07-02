@@ -7,6 +7,7 @@ import com.projearq.salesMS.application.usecases.ConfirmSaleUC;
 import com.projearq.salesMS.application.usecases.SalesSearchUC;
 import com.projearq.salesMS.business.entities.SaleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

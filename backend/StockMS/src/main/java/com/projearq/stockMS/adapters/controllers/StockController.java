@@ -1,12 +1,9 @@
 package com.projearq.stockMS.adapters.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.projearq.stockMS.application.dtos.ProductDTO;
-import com.projearq.stockMS.application.usecases.AddProductUC;
-import com.projearq.stockMS.application.usecases.FindAllProductsUC;
-import com.projearq.stockMS.application.usecases.SearchStockProductUC;
-import com.projearq.stockMS.application.utils.JSONUtils;
-import com.projearq.stockMS.business.entities.ProductEntity;
+import com.projearq.stockMS.application.dtos.RollbackStockDTO;
+import com.projearq.stockMS.application.dtos.StockDTO;
+import com.projearq.stockMS.application.usecases.*;
 import com.projearq.stockMS.business.entities.StockEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,14 +19,16 @@ public class StockController {
 
     private final SearchStockProductUC searchStockProductUC;
     private final FindAllProductsUC findAllProductsUC;
-    private final AddProductUC addProductUC;
+    private final SearchProductUC searchProductUC;
+    private final DecreaseAmmountItemStockUC decreaseAmmountItemStockUC;
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public StockController(SearchStockProductUC searchStockProductUC, FindAllProductsUC findAllProductsUC, AddProductUC addProductUC, RabbitTemplate rabbitTemplate) {
+    public StockController(SearchStockProductUC searchStockProductUC, FindAllProductsUC findAllProductsUC, SearchProductUC searchProductUC, DecreaseAmmountItemStockUC decreaseAmmountItemStockUC, RabbitTemplate rabbitTemplate) {
         this.searchStockProductUC = searchStockProductUC;
         this.findAllProductsUC = findAllProductsUC;
-        this.addProductUC = addProductUC;
+        this.searchProductUC = searchProductUC;
+        this.decreaseAmmountItemStockUC = decreaseAmmountItemStockUC;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -39,29 +38,36 @@ public class StockController {
         return this.findAllProductsUC.run();
     }
 
+    @GetMapping("/product/{code}")
+    @CrossOrigin(origins = "*")
+    public ProductDTO searchProduct(@PathVariable("code") Long code) {
+        return this.searchProductUC.run(code);
+    }
+
     @GetMapping("/{code}")
     @CrossOrigin(origins = "*")
-    public StockEntity searchStockItem(@PathVariable("code") Long code) {
+    public StockDTO searchStockproduct(@PathVariable("code") Long code) {
         return this.searchStockProductUC.run(code);
     }
 
     @PostMapping
     @CrossOrigin(origins = "*")
-    public void addProduct(@RequestBody ProductDTO productDTO) {
-        try {
-            String send = JSONUtils.covertFromObjectToJson(productDTO);
-            log.info("Sending message > " + send);
-            rabbitTemplate.convertAndSend("stock-exchange", "stock.add", send);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public void addProduct(@RequestBody ProductDTO product) {
+        log.info("Sending message > " + product);
+        rabbitTemplate.convertAndSend("stock-exchange", "stock.add", product);
+    }
+
+    @PutMapping
+    @CrossOrigin(origins = "*")
+    public void decreaseAmmountItemStock(@RequestParam Long code, @RequestParam int ammount) {
+        this.decreaseAmmountItemStockUC.run(code, ammount);
     }
 
     @GetMapping("/teste")
     @CrossOrigin(origins = "*")
-    public void novaCotacao(@RequestParam final String de, @RequestParam final String para, @RequestParam final double valor) {
-        String msg = de+","+para+","+valor;
-        rabbitTemplate.convertAndSend("stock-exchange", "stock.add", msg);
+    public void novaCotacao(@RequestBody List<RollbackStockDTO> products) {
+        log.info("Sending message > " + products);
+        rabbitTemplate.convertAndSend("stock-rollback-exchange", "stockRollback.error", products);
     }
 
 }
