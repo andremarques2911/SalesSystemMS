@@ -4,7 +4,6 @@ import com.projearq.stockMS.application.dtos.ProductDTO;
 import com.projearq.stockMS.application.dtos.RollbackStockDTO;
 import com.projearq.stockMS.application.dtos.StockDTO;
 import com.projearq.stockMS.application.usecases.*;
-import com.projearq.stockMS.business.entities.StockEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class StockController {
     }
 
     @GetMapping("/products")
-    @CrossOrigin(origins = "*")
+//    @CrossOrigin(origins = "*")
     public List<ProductDTO> getProdutcs() {
         return this.findAllProductsUC.run();
     }
@@ -54,7 +53,7 @@ public class StockController {
     @CrossOrigin(origins = "*")
     public void addProduct(@RequestBody ProductDTO product) {
         log.info("Sending message > " + product);
-        rabbitTemplate.convertAndSend("stock-exchange", "stock.add", product);
+        this.rabbitTemplate.convertAndSend("stock-exchange", "stock.add", product);
     }
 
     @PutMapping
@@ -67,7 +66,7 @@ public class StockController {
     @CrossOrigin(origins = "*")
     public void novaCotacao(@RequestBody List<RollbackStockDTO> products) {
         log.info("Sending message > " + products);
-        rabbitTemplate.convertAndSend("stock-rollback-exchange", "stockRollback.error", products);
+        this.rabbitTemplate.convertAndSend("stock-rollback-exchange", "stockRollback.error", products);
     }
 
 }

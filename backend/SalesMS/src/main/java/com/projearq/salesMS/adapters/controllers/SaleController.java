@@ -8,6 +8,7 @@ import com.projearq.salesMS.application.usecases.SalesSearchUC;
 import com.projearq.salesMS.business.entities.SaleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +17,10 @@ import java.util.List;
 @RequestMapping("sales")
 public class SaleController {
 
-    private SalesSearchUC salesSearchUC;
-
-    private CalculateBasicCostUC calculateBasicCostUC;
-
-    private ConfirmSaleUC confirmSaleUC;
-
-    private CheckAvailabilityUC checkAvailabilityUC;
+    private final SalesSearchUC salesSearchUC;
+    private final CalculateBasicCostUC calculateBasicCostUC;
+    private final ConfirmSaleUC confirmSaleUC;
+    private final CheckAvailabilityUC checkAvailabilityUC;
 
     @Autowired
     public SaleController(SalesSearchUC salesSearchUC, CalculateBasicCostUC calculateBasicCostUC, ConfirmSaleUC confirmSaleUC, CheckAvailabilityUC checkAvailabilityUC) {
@@ -39,8 +37,15 @@ public class SaleController {
     }
 
     @PostMapping("/subtotal")
-    @CrossOrigin(origins = "*")
+//    @CrossOrigin(origins = "*")
     public Double[] calculateBasicCost(@RequestBody final List<ProductDTO> itens) {
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("Access-Control-Allow-Origin", "*");
+//        responseHeaders.set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+//        responseHeaders.set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token");
+//        return ResponseEntity.ok()
+//                .headers(responseHeaders)
+//                .body(this.calculateBasicCostUC.run(itens));
         return this.calculateBasicCostUC.run(itens);
     }
 
@@ -51,7 +56,7 @@ public class SaleController {
     }
 
     @GetMapping("/autorizacao")
-    @CrossOrigin(origins = "*")
+//    @CrossOrigin(origins = "*")
     public boolean checkAvailability(@RequestParam final Long codProd, @RequestParam final Integer qtdade) {
         return this.checkAvailabilityUC.run(codProd, qtdade);
     }

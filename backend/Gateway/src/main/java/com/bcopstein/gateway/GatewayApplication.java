@@ -14,7 +14,7 @@ public class GatewayApplication {
 			.route(p -> p
 				.path("/sales/*")
 				.uri("http://salesms:8080"))
-			 .route(p->p
+			.route(p->p
 			 	.path("/stock/*")
 			 	.uri("http://stockms:8080"))
 			.build();

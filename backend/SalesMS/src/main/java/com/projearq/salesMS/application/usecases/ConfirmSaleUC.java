@@ -30,18 +30,22 @@ public class ConfirmSaleUC {
     public boolean run(List<ProductDTO> items) {
         List<SaleItemEntity> saleItems = new ArrayList<>();
         Double[] subtotais = this.calculateBasicCostUC.run(items);
-        for (ProductDTO item : items) {
-            this.stockService.decreaseAmmountItemStock(item.getCode(), item.getAmmount());
-            ProductDTO product = this.stockService.searchProduct(item.getCode());
-            SaleItemEntity saleItem = SaleItemEntity.builder()
-                    .ammount(item.getAmmount())
-                    .unitPrice(subtotais[0])
-                    .tax(subtotais[1])
-                    .productId(product.getId())
-                    .build();
-            saleItems.add(saleItem);
+        try {
+            for (ProductDTO item : items) {
+                this.stockService.decreaseAmmountItemStock(item.getCode(), item.getAmmount());
+                ProductDTO product = this.stockService.searchProduct(item.getCode());
+                SaleItemEntity saleItem = SaleItemEntity.builder()
+                        .ammount(item.getAmmount())
+                        .unitPrice(subtotais[0])
+                        .tax(subtotais[1])
+                        .productId(product.getId())
+                        .build();
+                saleItems.add(saleItem);
+            }
+            this.service.save(saleItems);
+        } catch(Exception e) {
+            this.stockService.rollbackStock(items);
         }
-        this.service.save(saleItems);
         return true;
     }
 
