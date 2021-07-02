@@ -37,46 +37,32 @@ class ServicoDeVendas {
     });
 
     const otherParam = {
-      headers: { "content-type": "application/json", "Access-Control-Allow-Origin": "*" },
+      headers: { "content-type": "application/json" },
       body: JSON.stringify(param),
       method: "POST",
     };
 
-    $.ajax({
-      type: "POST",
-      headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' 
-      },
-      url: url,
-      data: JSON.stringify(param),
-      dataType: 'json'
-    }).done(function(data) {
-      console.log(data);
-      alert( "second success" );
-    })
-
-    // try {
-    //   let resposta = await fetch(url, otherParam);
-    //   if (resposta.ok) {
-    //     let totais = await resposta.json();
-    //     return totais;
-    //   } else {
-    //     let res = await resposta.json();
-    //     let message = res.message;
-    //     if (message) {
-    //       Swal.fire({
-    //         title: 'Ops!',
-    //         text: res.message,
-    //         icon: 'warning',
-    //         confirmButtonText: 'Ok',
-    //         confirmButtonColor: '#68b0ab'
-    //       });
-    //     }
-    //   }
-    // } catch (erro) {
-    //   console.log(erro);
-    // }
+    try {
+      let resposta = await fetch(url, otherParam);
+      if (resposta.ok) {
+        let totais = await resposta.json();
+        return totais;
+      } else {
+        let res = await resposta.json();
+        let message = res.message;
+        if (message) {
+          Swal.fire({
+            title: 'Ops!',
+            text: res.message,
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#68b0ab'
+          });
+        }
+      }
+    } catch (erro) {
+      console.log(erro);
+    }
     return null;
   }
 

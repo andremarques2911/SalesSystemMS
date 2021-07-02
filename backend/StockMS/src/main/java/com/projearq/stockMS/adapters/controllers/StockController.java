@@ -62,9 +62,9 @@ public class StockController {
         this.decreaseAmmountItemStockUC.run(code, ammount);
     }
 
-    @GetMapping("/teste")
+    @PostMapping("/teste")
     @CrossOrigin(origins = "*")
-    public void novaCotacao(@RequestBody List<RollbackStockDTO> products) {
+    public void rollbackStock(@RequestBody List<RollbackStockDTO> products) {
         log.info("Sending message > " + products);
         this.rabbitTemplate.convertAndSend("stock-rollback-exchange", "stockRollback.error", products);
     }

@@ -6,7 +6,7 @@ spring:
           '[/**]':
             allowedOrigins: "*"
             allowedMethods: "*"
-            allowedHeaders: "Authorization"
+            allowedHeaders: "Content-Type"
 logging:
   level:
     root: DEBUG

@@ -1,16 +1,25 @@
 package com.projearq.salesMS.adapters.configurations;
+import com.projearq.salesMS.application.dtos.ProductDTO;
+import com.projearq.salesMS.application.usecases.ConfirmSaleUC;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Slf4j
 @Component
 public class Receiver {
-//    @Autowired
-//    private ServicoCotacao servicoCotacao;
 
-    public void receiveMessage(String message) {
-        String dados[] = message.split(",");
-        log.info("Received <" + message + ">");
-//        servicoCotacao.novaCotacao(dados[0], dados[1],Double.parseDouble(dados[2]));
+    private final ConfirmSaleUC confirmSaleUC;
+
+    @Autowired
+    public Receiver(ConfirmSaleUC confirmSaleUC) {
+        this.confirmSaleUC = confirmSaleUC;
+    }
+
+    public void receive(List<ProductDTO> products) {
+        log.info("Received > " + products);
+        this.confirmSaleUC.run(products);
     }
 }

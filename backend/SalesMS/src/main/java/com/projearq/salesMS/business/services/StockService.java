@@ -5,12 +5,17 @@ import com.projearq.salesMS.application.dtos.RollbackStockDTO;
 import com.projearq.salesMS.application.dtos.StockDTO;
 import com.projearq.salesMS.application.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -57,11 +62,16 @@ public class StockService {
     }
 
     public void decreaseAmmountItemStock(Long codProd, int ammount) {
-        log.info("Updating product > " + codProd);
+        log.info("Decrease product ammount > " + codProd + " " + ammount );
         try {
-            this.send("http://stockms:8080/stock/product/"+codProd);
+            URIBuilder builder = new URIBuilder("http://stockms:8080/stock/");
+            builder.setParameter("code", codProd.toString());
+            builder.setParameter("ammount", String.valueOf(ammount));
+            HttpPut put = new HttpPut(builder.build());
+            CloseableHttpClient client = HttpClients.createDefault();
+            client.execute(put);
             log.info("Updated");
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
